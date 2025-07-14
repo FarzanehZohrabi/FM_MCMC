@@ -25,11 +25,8 @@ This pipeline estimates microlensing parameter uncertainties for single lens eve
    * Runs MCMC to sample the posterior
    * Produces a corner plot with FM vs. MCMC ellipses and a summary table of true parameter values vs. σ<sub>FM</sub> vs. σ<sub>MCMC</sub>
    * Generates a light‐curve fit and walker‐evolution diagnostic plots
-   * Writes event‐level summaries via `stats_utils`
+   * Writes event summaries via `stats_utils`
 
 ## Customization
 
-* **Priors:** Modify `model_utils.ln_prior` to change parameter bounds or informative priors.
 * **Sampling:** Tweak `n_walkers`, `n_steps`, `n_burn`, and `thin` in `initialize_emcee`.
-* **Plots:** Adjust font sizes, color schemes, or table layout in `plot_utils.py` to fit publication standards.
-
