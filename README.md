@@ -20,7 +20,8 @@ This pipeline estimates microlensing parameter uncertainties for single lens eve
 
 3. For each event, the script:
 
-   * Reads Fisher matrix errors and decides point‐ vs. finite‐source model
+   * Reads parameters from the ```gulls```  simulation outfile and decides whether to continue sampling in linear or logarithmic space
+   * Reads Fisher matrix errors and decides point‐source vs. finite‐source model
    * Runs MCMC to sample the posterior
    * Produces a corner plot with FM vs. MCMC ellipses and a summary table of true parameter values vs. σ<sub>FM</sub> vs. σ<sub>MCMC</sub>
    * Generates a light‐curve fit and walker‐evolution diagnostic plots
