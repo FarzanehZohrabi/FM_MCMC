@@ -2,7 +2,6 @@ import os
 import glob
 import numpy as np
 import pandas as pd
-from PyAstronomy import pyasl
 
 
 def read_outfile(out_file: str) -> pd.DataFrame:

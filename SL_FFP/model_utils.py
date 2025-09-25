@@ -1,5 +1,6 @@
 import numpy as np
-from PyAstronomy import pyasl
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 import emcee
 
 VBM = None
@@ -30,9 +31,20 @@ def ln_prior(theta, parameters_to_fit, finite_source):
         elif 'rho' in pt:
             if not (1e-4 < pt['rho'] < 1e2):
                 return -np.inf
-    elif not finite_source and 'log_u0' in pt:
-        if not (-4.0 < pt['log_u0'] < 1.0):
-            return -np.inf
+        #log u0
+        if 'log_u0' in pt:
+            if not (-4.0 < pt['log_rho'] < 2.0):
+                return -np.inf
+        else:
+            if pt['u0']<0:
+                return -np.inf
+    else:
+        if 'log_u0' in pt:
+            if not (-4.0 < pt['log_u0'] < 1.0):
+                return -np.inf
+        else:
+             if pt['u0']<0:
+                return -np.inf
         
     return 0.0
 
@@ -97,7 +109,8 @@ def initialize_emcee(parameters_to_fit,
                      n_burn: int = 500,
                      thin: int = 20):
 
-	coords = pyasl.coordsDegToSexa(ra, dec)
+	#coords = pyasl.coordsDegToSexa(ra, dec)
+	coords = SkyCoord(ra=ra*u.deg,dec=dec*u.deg,frame='icrs')
 	if not finite_source:
 		# 'rho' is the 4th element (index 3)
 		sigmas_fm.pop(3)
@@ -114,7 +127,9 @@ def initialize_emcee(parameters_to_fit,
 				sigmas[2] = 0.3 """
 	n_dim = len(parameters_to_fit)
 	# Starting point per walker
+        
 	start_values = [params[p] for p in parameters_to_fit]
+        #start_values = [best_fit[p] for p in parameters_to_fit]
 	start_positions = [start_values + np.random.randn(n_dim) * sigmas
                        for _ in range(n_walkers)]
 	return n_dim, n_walkers, n_steps, n_burn, thin, start_positions, start_values, coords
