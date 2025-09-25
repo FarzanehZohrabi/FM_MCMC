@@ -33,16 +33,16 @@ def plot_corner_with_ellipses(
     # Choose labels only for the keys you actually have
     base_map = {
         "t0":   r"$t_0$",
-        "log_t0": r"$t_0$",
+        "log_t0": r"$\log t_0$",
         "tE":   r"$t_E$",
-        "log_tE": r"$t_E$",
+        "log_tE": r"$\log t_E$",
         "u0":   r"$u_0$",
-        "log_u0": r"$u_0$",
+        "log_u0": r"$\log u_0$",
         "rho":  r"$\rho$",
-        "log_rho": r"$\rho$",
+        "log_rho": r"$\log \rho$",
         "F0" : r"$F_0$",
         "fs":   r"$f_s$",
-        "log_fs": r"$f_s$"
+        "log_fs": r"$\log f_s$"
     }
 
     labels = [base_map[p] for p in parameters_to_fit]
@@ -91,8 +91,8 @@ def plot_corner_with_ellipses(
         plot_contours=False,
         fill_contours=True,
         contour_kwargs={"colors":["tab:blue","tab:red"], "alpha":0.7, "linewidths":[1.5,1.5]},
-        hist_kwargs={"density":True, "color":"gray", "alpha":0.9},
-        plot_datapoints=False,
+        hist_kwargs={"density":False, "color":"gray", "alpha":0.9},
+        plot_datapoints=True,
         space=0.03,
         use_math_text=True
     )
@@ -136,13 +136,13 @@ def plot_corner_with_ellipses(
         ncol=2,
         frameon=False,
         fontsize=20,
-        bbox_to_anchor=(0.95, 0.73)
+        bbox_to_anchor=(0.95, 0.63)
     )
 
 
     tab_ax = fig.add_subplot(gs[:, -1])
     tab_ax.axis("off")
-    tab_ax.set_position([0.75, 0.10, 0.15, 0.98]) 
+    tab_ax.set_position([0.7, 0.10, 0.15, 0.78]) 
     table_data = [
         [base_map[p],
          f"{params_gulls[idx]:.3g}",
@@ -164,7 +164,7 @@ def plot_corner_with_ellipses(
 
 
 
-    fig.suptitle(title, fontsize=30, x=0.63,y=0.95)
+    #fig.suptitle(title, fontsize=30, x=0.63,y=0.95)
     output_pdf.savefig(fig)
     plt.close(fig)
 

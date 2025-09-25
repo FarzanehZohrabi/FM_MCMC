@@ -95,8 +95,9 @@ def run_case(directory, out_file, outdir, obsgroup, match):
                 model_utils.initialize_emcee(
                     parameters_to_fit, params, sigmas_fm,
                     ra, dec, finite_source,linear_case,
-                    n_walkers=30, n_steps=2000, n_burn=50, thin=20
+                    n_walkers=30, n_steps=10000, n_burn=1000, thin=3
                 )
+            #n_walkers=30, n_steps=4000, n_burn=500, thin=20
             emcee_args = (t, F, F_err, coords, parameters_to_fit, finite_source, linear_case)
             sampler = model_utils.run_emcee(
                 ln_prob_fn, start_positions, n_walkers, n_steps, args=emcee_args
@@ -107,9 +108,11 @@ def run_case(directory, out_file, outdir, obsgroup, match):
 
             # Generate PDF report
             pdf_path = os.path.join(directory, f"{base}_{case_id}.pdf")
+            print(pdf_path)
          
             os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
             with PdfPages(pdf_path) as pdf:
+                print("here")
                 plot_corner_with_ellipses(samples, parameters_to_fit, cov_mcmc, cov_fm,params_gulls,sigmas_fm,sigma_mcmc,finite_source, pdf)
                 plot_lc(t0, tE, data_df, fsm, match=match, nobs=3, displayobs=None, obsgroup=obsgroup, models=None, output_pdf=pdf)
                 plot_parameter_evolution(sampler, parameters_to_fit, pdf)
@@ -131,9 +134,9 @@ def main():
 	vbm_inst = VBMicrolensing.VBMicrolensing()
 	_ = vbm_inst.ESPLMag2(1.0, 1e-3)
 	model_utils.set_vbm(vbm_inst)
-	directory = "/Users/ffp_fish_overguide/"
+	directory = "/Users/penny/Box/ffp_fish_overguide/"
 	out_file = os.path.join(directory, 'ffp_fish_overguide_0_52.out')
-	outdir = "/Users/FFP_FM_MCMC"
+	outdir = "/Users/penny/FM_MCMC/output"
 	obsgroup = ["F146", "F087", "F213"]
 	match = 0 #ref observatory
 	run_case(directory, out_file,outdir,obsgroup, match=match)
