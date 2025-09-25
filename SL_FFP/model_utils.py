@@ -33,7 +33,7 @@ def ln_prior(theta, parameters_to_fit, finite_source):
                 return -np.inf
         #log u0
         if 'log_u0' in pt:
-            if not (-4.0 < pt['log_rho'] < 2.0):
+            if not (-4.0 < pt['log_u0'] < 2.0):
                 return -np.inf
         else:
             if pt['u0']<0:
